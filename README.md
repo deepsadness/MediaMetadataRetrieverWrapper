@@ -1,4 +1,4 @@
-# Mediametaretriverwrapper
+# MediaMetadataRetrieverWrapper
 MediaMetadataRetriever wrapper
 
 ### 速度对比
