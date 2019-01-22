@@ -17,7 +17,8 @@ API Request : >=19 ,Android 4.4
 - 使用MediaCodec+ImageReader
 第一次抽帧。大概是200ms ,后续则是50ms左右。
 
-> 注意：如果不缩小图片的话，建议还是使用MediaMetadataRetriever。
+> 注意：如果不缩小图片的话，建议还是使用MediaMetadataRetriever。使用当前库的话，
+>  调用metadataRetriever.forceFallBack(true);
 
 ### 添加依赖
 
@@ -25,19 +26,19 @@ API Request : >=19 ,Android 4.4
 
 ```
     allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
+    	repositories {
+    		...
+    		maven { url 'https://jitpack.io' }
+    	}
+    }
 ```
 
 - Add the dependency
 
 ```
     dependencies {
-	        implementation 'com.github.deepsadness:MediaMetadataRetrieverWrapper:0.1'
-	}
+        implementation 'com.github.deepsadness:MediaMetadataRetrieverWrapper:0.1'
+    }
 
 ```
 
