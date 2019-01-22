@@ -116,30 +116,18 @@ public class MainActivity extends AppCompatActivity {
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //                    mVideoProcessThread.process2(path, bitmapShow2);
 //                }
-//                final long start = System.currentTimeMillis();
+                final long start = System.currentTimeMillis();
                 if (metadataRetriever == null) {
                     metadataRetriever = new MediaMetadataRetrieverWrapper();
 //                    metadataRetriever.forceFallBack(true);
                     metadataRetriever.setDataSource(path);
                 }
                 //2S
-//                metadataRetriever.getFrameAtTime(2 * 1000 * 1000, 2, new RetrieverProcessThread.BitmapCallBack() {
-//                    @Override
-//                    public void onComplete(final Bitmap frame) {
-//                        long end = System.currentTimeMillis();
-//                        Log.d("zzx", "cost ms = " + (end - start));
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                bitmapArrayList.add(frame);
-//                                mBitmapAdapter.notifyDataSetChanged();
-//                            }
-//                        });
-//                    }
-//                });
-                metadataRetriever.getFramesInterval(1000, 4, new RetrieverProcessThread.BitmapCallBack() {
+                metadataRetriever.getFrameAtTime(2 * 1000 * 1000, 2, new RetrieverProcessThread.BitmapCallBack() {
                     @Override
                     public void onComplete(final Bitmap frame) {
+                        long end = System.currentTimeMillis();
+                        Log.d("zzx", "cost ms = " + (end - start));
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -149,6 +137,18 @@ public class MainActivity extends AppCompatActivity {
                         });
                     }
                 });
+//                metadataRetriever.getFramesInterval(1000, 4, new RetrieverProcessThread.BitmapCallBack() {
+//                    @Override
+//                    public void onComplete(final Bitmap frame) {
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                bitmapArrayList.add(frame);
+//                                mBitmapAdapter.notifyDataSetChanged();
+//                            }
+//                        });
+//                    }
+//                });
 
             }
         });

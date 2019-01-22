@@ -1,20 +1,30 @@
 # MediaMetadataRetrieverWrapper
-MediaMetadataRetriever wrapper
+MediaMetadataRetriever wrapper。
+API Request : >=19 ,Android 4.4
 
 ### 速度对比
 
-> 左边的图片是通过方式1
-> 右边的图片是通过方式2
+> 左边的图片是通过方式1(使用MediaMetadataRetriever)
+> 右边的图片是通过方式2(使用MediaCodec+ImageReader)
 
 ![speed.gif](https://upload-images.jianshu.io/upload_images/1877190-043e610b38a54051.gif?imageMogr2/auto-orient/strip)
 
+####
+在缩小2倍的Bitmap输出情况下
+- 使用MediaMetadataRetriever
+抽帧的速度，稳定在 300ms左右。
+
+- 使用MediaCodec+ImageReader
+第一次抽帧。大概是200ms ,后续则是50ms左右。
+
+> 注意：如果不缩小图片的话，建议还是使用MediaMetadataRetriever。
 
 ### 添加依赖
 
 - Add it in your root build.gradle at the end of repositories:
 
 ```
-allprojects {
+    allprojects {
 		repositories {
 			...
 			maven { url 'https://jitpack.io' }
@@ -25,7 +35,7 @@ allprojects {
 - Add the dependency
 
 ```
-dependencies {
+    dependencies {
 	        implementation 'com.github.deepsadness:MediaMetadataRetrieverWrapper:0.1'
 	}
 
