@@ -2,6 +2,7 @@
 MediaMetadataRetriever wrapper
 
 ### 速度对比
+
 > 左边的图片是通过方式1
 > 右边的图片是通过方式2
 
@@ -9,6 +10,7 @@ MediaMetadataRetriever wrapper
 
 
 ### 使用方式
+
 - 1. 创建
 ```
 
@@ -19,6 +21,7 @@ MediaMetadataRetriever wrapper
 ```
 
 - 2. 设置DataSource
+
 当前只支持了本地文件。没有重写其他的方法
 ```
    metadataRetriever.setDataSource(path);
@@ -26,6 +29,7 @@ MediaMetadataRetriever wrapper
 ```
 
 - 3. 对对应的时间抽帧
+
 ```
     //2s处。尺寸缩小2倍
     metadataRetriever.getFrameAtTime(2 * 1000 * 1000, 2, new RetrieverProcessThread.BitmapCallBack() {
@@ -45,6 +49,7 @@ MediaMetadataRetriever wrapper
 ```
 
 - 4. 按照间隔
+
 这种方式，可以按照时间间隔，一口气取出所有的帧。
 如果没有强制使用MediaMetaRetriever的话(forceBack 为 false，默认情况)，结果会多一帧。因为强制输出最后一帧。
 ```
@@ -66,11 +71,6 @@ MediaMetadataRetriever wrapper
 - 5. 释放
 ```
     metadataRetriever.release();
-```
-                }
-                //2S
-
-
 ```
 
 ### 简要说明
