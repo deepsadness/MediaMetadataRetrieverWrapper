@@ -9,6 +9,28 @@ MediaMetadataRetriever wrapper
 ![speed.gif](https://upload-images.jianshu.io/upload_images/1877190-043e610b38a54051.gif?imageMogr2/auto-orient/strip)
 
 
+### 添加依赖
+
+- Add it in your root build.gradle at the end of repositories:
+
+```
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+- Add the dependency
+
+```
+dependencies {
+	        implementation 'com.github.deepsadness:MediaMetadataRetrieverWrapper:0.1'
+	}
+
+```
+
 ### 使用方式
 
 - 1. 创建
