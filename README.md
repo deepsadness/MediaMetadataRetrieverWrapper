@@ -116,6 +116,7 @@ API Request : >=19 ,Android 4.4
 但当我们只需要生成小图预览的时候，
 如果我们实现做了缩放的处理。就能得到很快的速度。
 
+博文位置:https://www.jianshu.com/p/dfddb85302bd
 
 ### 后续
 需要对原来MediaMetadataRetriever的原理探究
