@@ -15,10 +15,10 @@ API Request : >=19 ,Android 4.4
 抽帧的速度，稳定在 300ms左右。
 
 - 使用MediaCodec+ImageReader
-第一次抽帧。大概是200ms ,后续则是50ms左右。
+第一次抽帧。大概是200ms ,后续每帧则是50ms左右。
 
-> 注意：如果不缩小图片的话，建议还是使用MediaMetadataRetriever。使用当前库的话，
->  调用metadataRetriever.forceFallBack(true);
+> 注意：如果不缩小图片的话，建议还是使用MediaMetadataRetriever。
+> 使用当前库的话，调用metadataRetriever.forceFallBack(true);
 
 ### 添加依赖
 
@@ -44,7 +44,7 @@ API Request : >=19 ,Android 4.4
 
 ### 使用方式
 
-- 1. 创建
+1. 创建
 ```
 
  MediaMetadataRetrieverWrapper metadataRetriever = new MediaMetadataRetrieverWrapper();
@@ -53,7 +53,7 @@ API Request : >=19 ,Android 4.4
 
 ```
 
-- 2. 设置DataSource
+2. 设置DataSource
 
 当前只支持了本地文件。没有重写其他的方法
 ```
@@ -61,7 +61,7 @@ API Request : >=19 ,Android 4.4
 
 ```
 
-- 3. 对对应的时间抽帧
+3. 对对应的时间抽帧
 
 ```
     //2s处。尺寸缩小2倍
@@ -81,7 +81,7 @@ API Request : >=19 ,Android 4.4
     });
 ```
 
-- 4. 按照间隔
+4. 按照间隔
 
 这种方式，可以按照时间间隔，一口气取出所有的帧。
 如果没有强制使用MediaMetaRetriever的话(forceBack 为 false，默认情况)，结果会多一帧。因为强制输出最后一帧。
@@ -101,7 +101,7 @@ API Request : >=19 ,Android 4.4
 
 ```
 
-- 5. 释放
+5. 释放
 ```
     metadataRetriever.release();
 ```
@@ -111,12 +111,11 @@ API Request : >=19 ,Android 4.4
 将文件通过MediaCodec解码。
 输出到ImageReader当中。来获取截图。
 
-一系列测试下来，应该是MetaRetriever更快。
-之所以开始慢的原因，估计是因为一次生成的Bitmap是原始的尺寸。所以慢了。
+使用MediaMetadataRetriever的方式，因为无法配置输出的图片的大小。
 
-当生成小图的时候，因为我们实现做了缩放的处理。所以变得更快了。
+但当我们只需要生成小图预览的时候，
+如果我们实现做了缩放的处理。就能得到很快的速度。
 
-但是对Bitmap进行缩放的时候（当Scale 大于1 ）时，用MediaCodec的速度就明显加快了。
 
 ### 后续
 需要对原来MediaMetadataRetriever的原理探究
