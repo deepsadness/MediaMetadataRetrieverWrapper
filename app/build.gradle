@@ -20,5 +20,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation project(':mediametaretriverwrapper')
+//    implementation project(':mediametaretriverwrapper')
+    implementation 'com.github.deepsadness:MediaMetadataRetrieverWrapper:0.1'
+
 }
