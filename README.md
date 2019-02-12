@@ -121,3 +121,4 @@ API Request : >=19 ,Android 4.4
 ### 后续
 需要对原来MediaMetadataRetriever的原理探究
 
+- 在API28以上，MediaMetadataRetriever提供了[getScaledFrameAtTime](https://developer.android.com/reference/android/media/MediaMetadataRetriever#getScaledFrameAtTime(long,%20int,%20int,%20int))方法

@@ -1,6 +1,7 @@
 package com.example.cry.mediacodecimagereaderchain;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         float scale = 1080 * 1f / widthPixels;
     }
 
+    @SuppressLint("NewApi")
     private void getVideoFiles() {
         mVideoProcessThread = new VideoProcessThread(this);
         mProgressDialog = new ProgressDialog(this);
@@ -116,18 +118,14 @@ public class MainActivity extends AppCompatActivity {
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //                    mVideoProcessThread.process2(path, bitmapShow2);
 //                }
-                final long start = System.currentTimeMillis();
-                if (metadataRetriever == null) {
-                    metadataRetriever = new MediaMetadataRetrieverWrapper();
-//                    metadataRetriever.forceFallBack(true);
-                    metadataRetriever.setDataSource(path);
-                }
-                //2S
-                metadataRetriever.getFrameAtTime(2 * 1000 * 1000, 2, new RetrieverProcessThread.BitmapCallBack() {
+//                final long start = System.currentTimeMillis();
+//                if (metadataRetriever == null) {
+                MediaMetadataRetrieverWrapper metadataRetriever = new MediaMetadataRetrieverWrapper();
+                metadataRetriever.forceFallBack(true);
+                metadataRetriever.setDataSource(path);
+                metadataRetriever.getFramesInterval(1000, 4, new RetrieverProcessThread.BitmapCallBack() {
                     @Override
                     public void onComplete(final Bitmap frame) {
-                        long end = System.currentTimeMillis();
-                        Log.d("zzx", "cost ms = " + (end - start));
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -137,9 +135,14 @@ public class MainActivity extends AppCompatActivity {
                         });
                     }
                 });
-//                metadataRetriever.getFramesInterval(1000, 4, new RetrieverProcessThread.BitmapCallBack() {
+
+//                }
+                //2S
+//                metadataRetriever.getFrameAtTime(2 * 1000 * 1000, 2, new RetrieverProcessThread.BitmapCallBack() {
 //                    @Override
 //                    public void onComplete(final Bitmap frame) {
+//                        long end = System.currentTimeMillis();
+//                        Log.d("zzx", "cost ms = " + (end - start));
 //                        runOnUiThread(new Runnable() {
 //                            @Override
 //                            public void run() {
@@ -149,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
 //                        });
 //                    }
 //                });
-
             }
         });
     }
@@ -166,16 +168,31 @@ public class MainActivity extends AppCompatActivity {
         //2S
         final long start = System.currentTimeMillis();
 
-        metadataRetriever.getFrameAtTime(2 * 1000 * 1000, 2, new RetrieverProcessThread.BitmapCallBack() {
+//        metadataRetriever.getFrameAtTime(2 * 1000 * 1000, 2, new RetrieverProcessThread.BitmapCallBack() {
+//            @Override
+//            public void onComplete(final Bitmap frame) {
+//                long end = System.currentTimeMillis();
+//                Log.d("zzx", "cost ms = " + (end - start));
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        bitmapArrayList.add(frame);
+//                        mBitmapAdapter.notifyDataSetChanged();
+//                    }
+//                });
+//            }
+//        });
+
+        MediaMetadataRetrieverWrapper metadataRetriever2 = new MediaMetadataRetrieverWrapper();
+        metadataRetriever2.setDataSource(targetPath);
+        metadataRetriever2.getFramesInterval(1000, 4, new RetrieverProcessThread.BitmapCallBack() {
             @Override
-            public void onComplete(final Bitmap frame) {
-                long end = System.currentTimeMillis();
-                Log.d("zzx", "cost ms = " + (end - start));
+            public void onComplete(final Bitmap frame2) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        bitmapArrayList.add(frame);
-                        mBitmapAdapter.notifyDataSetChanged();
+                        bitmapArrayList2.add(frame2);
+                        mBitmapAdapter2.notifyDataSetChanged();
                     }
                 });
             }
