@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         mListView3 = (ListView) findViewById(R.id.list_view3);
 //        mIvFrame = (ImageView) findViewById(R.id.iv_frame);
-        mBitmapAdapter2 = new BitmapAdapter(bitmapArrayList);
+        mBitmapAdapter2 = new BitmapAdapter(bitmapArrayList2);
         mListView3.setAdapter(mBitmapAdapter2);
 
 
