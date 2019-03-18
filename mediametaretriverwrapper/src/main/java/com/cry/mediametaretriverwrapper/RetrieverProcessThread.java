@@ -198,7 +198,8 @@ public class RetrieverProcessThread extends HandlerThread {
                     if (videoFormat == null) {
                         throw new IllegalArgumentException("Please setDataSource first");
                     }
-                    imageReader.setOnImageAvailableListener(new MyOnImageAvailableListener(scale, callBack), imageReaderHandlerThread.getHandler());
+                    int rotation = videoFormat.getInteger(MediaFormat.KEY_ROTATION);
+                    imageReader.setOnImageAvailableListener(new MyOnImageAvailableListener(rotation, scale, callBack), imageReaderHandlerThread.getHandler());
                     extractor.seekTo(0, MediaExtractor.SEEK_TO_CLOSEST_SYNC);
                     processByExtractor(scale, callBack);
                 } else {
@@ -415,7 +416,8 @@ public class RetrieverProcessThread extends HandlerThread {
                     if (videoFormat == null) {
                         throw new IllegalArgumentException("Please setDataSource first");
                     }
-                    imageReader.setOnImageAvailableListener(new MyOnImageAvailableListener(scale, callBack), imageReaderHandlerThread.getHandler());
+                    int rotation = videoFormat.getInteger(MediaFormat.KEY_ROTATION);
+                    imageReader.setOnImageAvailableListener(new MyOnImageAvailableListener(rotation, scale, callBack), imageReaderHandlerThread.getHandler());
                     extractor.seekTo(timeUs, MediaExtractor.SEEK_TO_CLOSEST_SYNC);
                     try {
                         MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
@@ -536,10 +538,12 @@ public class RetrieverProcessThread extends HandlerThread {
     private static class MyOnImageAvailableListener implements ImageReader.OnImageAvailableListener {
         private final BitmapCallBack callBack;
         private int scale;
+        private int rotation;
 
-        private MyOnImageAvailableListener(int scale, BitmapCallBack callBack) {
+        private MyOnImageAvailableListener(int rotation, int scale, BitmapCallBack callBack) {
             this.callBack = callBack;
             this.scale = scale;
+            this.rotation = rotation;
         }
 
         @Override
@@ -556,7 +560,7 @@ public class RetrieverProcessThread extends HandlerThread {
                     }
 
 //                    Bitmap bitmap = getBitmap(img);
-                    Bitmap bitmap = getBitmapScale(img, scale);
+                    Bitmap bitmap = getBitmapScale(img, scale, rotation);
 //                    Bitmap bitmap = getBitmapFromNv21(img);
                     if (callBack != null && bitmap != null) {
                         Log.d(TAG, "onComplete bitmap ");
@@ -574,17 +578,21 @@ public class RetrieverProcessThread extends HandlerThread {
         }
 
         @NonNull
-        private Bitmap getBitmapScale(Image img, int scale) {
+        private Bitmap getBitmapScale(Image img, int scale, int rotation) {
             int width = img.getWidth() / scale;
             int height = img.getHeight() / scale;
-            final byte[] bytesImage = getDataFromYUV420Scale(img, scale);
-            Bitmap bitmap = null;
-            bitmap = Bitmap.createBitmap(height, width, Bitmap.Config.ARGB_8888);
+            final byte[] bytesImage = getDataFromYUV420Scale(img, scale, rotation);
+            Bitmap bitmap;
+            if (rotation == 90 || rotation == 270) {
+                bitmap = Bitmap.createBitmap(height, width, Bitmap.Config.ARGB_8888);
+            } else {
+                bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            }
             bitmap.copyPixelsFromBuffer(ByteBuffer.wrap(bytesImage));
             return bitmap;
         }
 
-        private byte[] getDataFromYUV420Scale(Image image, int scale) {
+        private byte[] getDataFromYUV420Scale(Image image, int scale, int rotation) {
             int width = image.getWidth();
             int height = image.getHeight();
             // Read image data
@@ -601,7 +609,8 @@ public class RetrieverProcessThread extends HandlerThread {
                     planes[1].getBuffer(), planes[1].getRowStride(),
                     planes[2].getBuffer(), planes[2].getRowStride(),
                     width, height,
-                    scale
+                    scale,
+                    rotation
             );
             return argb;
         }

@@ -18,5 +18,5 @@ public class YuvUtils {
     public static native void yuvI420ToNV21(byte[] i420Src, byte[] nv21Src, int width, int height);
     public static native void yuvI420ToNV212(byte[] nv21, ByteBuffer y_buffer, int rowStride, ByteBuffer buffer1, int rowStride1, ByteBuffer buffer2, int rowStride2, int width, int height);
     public static native void yuvI420ToABGR(byte[] argb, ByteBuffer y_buffer, int rowStride, ByteBuffer buffer1, int rowStride1, ByteBuffer buffer2, int rowStride2, int width, int height) ;
-    public static native void yuvI420ToABGRWithScale(byte[] argb, ByteBuffer y_buffer, int rowStride, ByteBuffer buffer1, int rowStride1, ByteBuffer buffer2, int rowStride2, int width, int height,int scale) ;
+    public static native void yuvI420ToABGRWithScale(byte[] argb, ByteBuffer y_buffer, int rowStride, ByteBuffer buffer1, int rowStride1, ByteBuffer buffer2, int rowStride2, int width, int height, int scale, int rotation) ;
 }

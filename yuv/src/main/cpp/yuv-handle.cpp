@@ -121,7 +121,7 @@ Java_com_example_yuv_YuvUtils_yuvI420ToABGRWithScale(JNIEnv *env, jclass type, j
                                                      jobject u_buffer, jint u_rowStride,
                                                      jobject v_buffer, jint v_rowStride,
                                                      jint width, jint height,
-                                                     jint scale) {
+                                                     jint scale, jint rotation) {
     jbyte *argb = env->GetByteArrayElements(argb_, NULL);
 
     uint8_t *srcYPtr = reinterpret_cast<uint8_t *>(env->GetDirectBufferAddress(y_buffer));
@@ -153,28 +153,82 @@ Java_com_example_yuv_YuvUtils_yuvI420ToABGRWithScale(JNIEnv *env, jclass type, j
     jbyte *temp_u = temp_y + width * height;
     jbyte *temp_v = temp_y + width * height + width * height / 4;
 
-    libyuv::I420Rotate(
-            (uint8_t *) temp_y_scale, scaleW,
-            (uint8_t *) temp_u_scale, scaleW >> 1,
-            (uint8_t *) temp_v_scale, scaleW >> 1,
+    if (rotation == 90) {
+        libyuv::I420Rotate(
+                (uint8_t *) temp_y_scale, scaleW,
+                (uint8_t *) temp_u_scale, scaleW >> 1,
+                (uint8_t *) temp_v_scale, scaleW >> 1,
 //
-            (uint8_t *) temp_y, height,
-            (uint8_t *) temp_u, height >> 1,
-            (uint8_t *) temp_v, height >> 1,
+                (uint8_t *) temp_y, height,
+                (uint8_t *) temp_u, height >> 1,
+                (uint8_t *) temp_v, height >> 1,
 
-            width, height,
-            libyuv::kRotate90
-    );
+                width, height,
+                libyuv::kRotate90
+        );
 
-    libyuv::I420ToABGR(
-            (uint8_t *) temp_y, height,
-            (uint8_t *) temp_u, height >> 1,
-            (uint8_t *) temp_v, height >> 1,
+        libyuv::I420ToABGR(
+                (uint8_t *) temp_y, height,
+                (uint8_t *) temp_u, height >> 1,
+                (uint8_t *) temp_v, height >> 1,
 
-            (uint8_t *) argb, height * 4,
-            height, width
-    );
+                (uint8_t *) argb, height * 4,
+                height, width
+        );
+    } else if (rotation == 270) {
+        libyuv::I420Rotate(
+                (uint8_t *) temp_y_scale, scaleW,
+                (uint8_t *) temp_u_scale, scaleW >> 1,
+                (uint8_t *) temp_v_scale, scaleW >> 1,
+//
+                (uint8_t *) temp_y, height,
+                (uint8_t *) temp_u, height >> 1,
+                (uint8_t *) temp_v, height >> 1,
 
+                width, height,
+                libyuv::kRotate270
+        );
+
+        libyuv::I420ToABGR(
+                (uint8_t *) temp_y, height,
+                (uint8_t *) temp_u, height >> 1,
+                (uint8_t *) temp_v, height >> 1,
+
+                (uint8_t *) argb, height * 4,
+                height, width
+        );
+    } else if (rotation == 180) {
+        libyuv::I420Rotate(
+                (uint8_t *) temp_y_scale, scaleW,
+                (uint8_t *) temp_u_scale, scaleW >> 1,
+                (uint8_t *) temp_v_scale, scaleW >> 1,
+//
+                (uint8_t *) temp_y, height,
+                (uint8_t *) temp_u, height >> 1,
+                (uint8_t *) temp_v, height >> 1,
+
+                width, height,
+                libyuv::kRotate180
+        );
+
+        libyuv::I420ToABGR(
+                (uint8_t *) temp_y, width,
+                (uint8_t *) temp_u, width >> 1,
+                (uint8_t *) temp_v, width >> 1,
+
+                (uint8_t *) argb, width * 4,
+                width, height
+        );
+    } else {
+        libyuv::I420ToABGR(
+                (uint8_t *) temp_y, width,
+                (uint8_t *) temp_u, width >> 1,
+                (uint8_t *) temp_v, width >> 1,
+
+                (uint8_t *) argb, width * 4,
+                width, height
+        );
+    }
 
 
     env->ReleaseByteArrayElements(argb_, argb, 0);
