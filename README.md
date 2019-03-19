@@ -119,6 +119,11 @@ API Request : >=19 ,Android 4.4
 博文位置:https://www.jianshu.com/p/dfddb85302bd
 
 ### 后续
-需要对原来MediaMetadataRetriever的原理探究
 
 - 在API28以上，MediaMetadataRetriever提供了[getScaledFrameAtTime](https://developer.android.com/reference/android/media/MediaMetadataRetriever#getScaledFrameAtTime(long,%20int,%20int,%20int))方法
+
+### 已知问题
+1. 小米5s获取的截图是花屏问题
+2. 华为Mate8上张数显示较少的问题
+
+后续还是要看一下MediaMetadataRetriever的原理探究。对API进行兼容。
