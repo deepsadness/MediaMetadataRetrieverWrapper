@@ -198,7 +198,10 @@ public class RetrieverProcessThread extends HandlerThread {
                     if (videoFormat == null) {
                         throw new IllegalArgumentException("Please setDataSource first");
                     }
-                    int rotation = videoFormat.getInteger(MediaFormat.KEY_ROTATION);
+                    int rotation = 0;
+                    if(videoFormat.containsKey(MediaFormat.KEY_ROTATION)){
+                         rotation = videoFormat.getInteger(MediaFormat.KEY_ROTATION);
+                    }
                     imageReader.setOnImageAvailableListener(new MyOnImageAvailableListener(rotation, scale, callBack), imageReaderHandlerThread.getHandler());
                     extractor.seekTo(0, MediaExtractor.SEEK_TO_CLOSEST_SYNC);
                     processByExtractor(scale, callBack);
@@ -416,7 +419,10 @@ public class RetrieverProcessThread extends HandlerThread {
                     if (videoFormat == null) {
                         throw new IllegalArgumentException("Please setDataSource first");
                     }
-                    int rotation = videoFormat.getInteger(MediaFormat.KEY_ROTATION);
+                    int rotation = 0;
+                    if(videoFormat.containsKey(MediaFormat.KEY_ROTATION)){
+                         rotation = videoFormat.getInteger(MediaFormat.KEY_ROTATION);
+                    }
                     imageReader.setOnImageAvailableListener(new MyOnImageAvailableListener(rotation, scale, callBack), imageReaderHandlerThread.getHandler());
                     extractor.seekTo(timeUs, MediaExtractor.SEEK_TO_CLOSEST_SYNC);
                     try {
