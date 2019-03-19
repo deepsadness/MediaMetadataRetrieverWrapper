@@ -37,7 +37,7 @@ API Request : >=19 ,Android 4.4
 
 ```
     dependencies {
-        implementation 'com.github.deepsadness:MediaMetadataRetrieverWrapper:0.1'
+        implementation 'com.github.deepsadness:MediaMetadataRetrieverWrapper:0.2'
     }
 
 ```
